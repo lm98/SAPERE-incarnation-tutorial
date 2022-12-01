@@ -1,0 +1,22 @@
+#First, we specify the incarnation the simulator should use
+incarnation: sapere
+
+# Then we need to choose a network model
+network-model:
+  type: ConnectWithinDistance # Link every node with any node withing distance X
+  parameters: [0.5] # The distance
+
+# Determine the shape of the network, in this case it is a Grid
+deployments:
+  type: Grid
+  parameters: [-5,-5,5,5,0.25,0.25,0,0]
+  contents: # define additional content of the network
+    - in:
+        type: Rectangle # we define a rectangle inside our grid network in which we will insert some molecule
+        parameters: [-1,-1,1,1]
+      molecule: ball
+  programs:
+    -
+      - time-distribution: 1 # a markovian event with rate 1
+        program: > # if the node has the ball, it passes it to a random neighbor
+          {ball} --> +{ball} 

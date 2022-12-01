@@ -6,13 +6,14 @@ network-model:
 
 _send: &count
   - time-distribution: 1
-    program: >
-      {ball} --> +{ball}
+    program: > # if we have N throws and the ball, increment the throws and pass the ball
+      {throws, N} {ball} --> {throws, N + 1} +{ball}
 
 deployments:
   type: Grid
   parameters: [-5,-5,5,5,0.25,0.25,0,0]
   contents:
+    - molecule: throws, 0
     - in:
         type: Rectangle
         parameters: [-1,-1,1,1]
